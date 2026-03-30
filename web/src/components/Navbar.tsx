@@ -1,4 +1,5 @@
 'use client';
+
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
@@ -7,89 +8,90 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
-        const handler = () => setScrolled(window.scrollY > 40);
+        const handler = () => setScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handler);
         return () => window.removeEventListener('scroll', handler);
     }, []);
 
+    const navLinks = [
+        { label: 'Paseos en Barco', href: '#services' },
+        { label: 'Reservas', href: '#booking-hero' },
+        { label: 'Quiénes somos', href: '#about' },
+        { label: 'Contáctenos', href: '#footer' },
+    ];
+
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-[#1B263B]/95 backdrop-blur-md shadow-xl' : 'bg-transparent'
-                }`}
-            role="navigation"
-            aria-label="Main navigation"
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+                scrolled ? 'bg-white shadow-sm py-4 border-navy/5' : 'bg-transparent py-6 border-transparent'
+            }`}
         >
-            <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
-                {/* Logo */}
-                <Link href="/" className="flex flex-col leading-none group">
-                    <span
-                        className="text-white font-serif text-xl tracking-widest font-bold"
-                        style={{ fontFamily: 'Playfair Display, serif' }}
+            <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                <div className="flex items-center justify-between">
+                    {/* Logo */}
+                    <Link href="/" className="flex flex-col group">
+                        <span className={`font-serif text-2xl tracking-[0.1em] font-bold transition-colors duration-300 ${scrolled ? 'text-navy' : 'text-white'}`}>
+                            SAIL<span className="text-gold">IN</span>MARBELLA
+                        </span>
+                    </Link>
+
+                    {/* Desktop Links */}
+                    <div className="hidden lg:flex items-center gap-10">
+                        <ul className={`flex items-center gap-8 text-[0.7rem] font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${scrolled ? 'text-navy/80 hover:text-navy' : 'text-white/90 hover:text-white'}`}>
+                            {navLinks.map(({ label, href }) => (
+                                <li key={label}>
+                                    <a
+                                        href={href}
+                                        className={`transition-colors duration-300 relative py-2 ${scrolled ? 'hover:text-gold' : 'hover:text-gold'}`}
+                                    >
+                                        {label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                        <a href="#booking-hero" className="btn-gold !py-3 !px-8 text-[0.65rem] uppercase tracking-widest hover:scale-105">
+                            Reservar Ahora
+                        </a>
+                    </div>
+
+                    {/* Mobile Toggle */}
+                    <button
+                        className="lg:hidden flex flex-col gap-1.5 p-2 group"
+                        onClick={() => setMenuOpen(!menuOpen)}
                     >
-                        SAIL<span style={{ color: 'var(--gold)' }}>IN</span>MARBELLA
-                    </span>
-                    <span className="text-[8px] tracking-[0.35em] uppercase text-white/50 mt-0.5">Puerto Banús · Est. 2024</span>
-                </Link>
-
-                {/* Desktop Links */}
-                <ul className="hidden md:flex items-center gap-10 text-[0.72rem] font-semibold tracking-widest uppercase text-white/80">
-                    {[
-                        { label: 'Servicios', href: '#services' },
-                        { label: 'Reservar', href: '#booking' },
-                        { label: 'Flota', href: '#fleet' },
-                        { label: 'Contacto', href: '#footer' },
-                    ].map(({ label, href }) => (
-                        <li key={label}>
-                            <a
-                                href={href}
-                                className="hover:text-[#C5A059] transition-colors duration-300 relative after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-[#C5A059] hover:after:w-full after:transition-all"
-                            >
-                                {label}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-
-                {/* CTA */}
-                <a href="#booking" className="btn-gold hidden md:inline-block py-2.5 px-5 text-[0.68rem]">
-                    Reservar Ahora
-                </a>
-
-                {/* Hamburger - mobile */}
-                <button
-                    className="md:hidden flex flex-col gap-1.5 p-2"
-                    onClick={() => setMenuOpen(!menuOpen)}
-                    aria-label="Toggle menu"
-                >
-                    <span className={`block w-6 h-0.5 bg-white transition-all ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-                    <span className={`block w-6 h-0.5 bg-white transition-all ${menuOpen ? 'opacity-0' : ''}`} />
-                    <span className={`block w-6 h-0.5 bg-white transition-all ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-                </button>
+                        <span className={`block w-6 h-0.5 transition-all duration-300 ${scrolled ? 'bg-navy' : 'bg-white'} ${menuOpen ? 'rotate-45 translate-y-2 !bg-gold' : ''}`} />
+                        <span className={`block w-6 h-0.5 transition-all duration-300 ${scrolled ? 'bg-navy' : 'bg-white'} ${menuOpen ? 'opacity-0' : ''}`} />
+                        <span className={`block w-6 h-0.5 transition-all duration-300 ${scrolled ? 'bg-navy' : 'bg-white'} ${menuOpen ? '-rotate-45 -translate-y-2 !bg-gold' : ''}`} />
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Menu */}
-            {menuOpen && (
-                <div className="md:hidden bg-[#1B263B]/98 backdrop-blur-md px-8 pb-8 pt-2 flex flex-col gap-5">
-                    {[
-                        { label: 'Servicios', href: '#services' },
-                        { label: 'Reservar', href: '#booking' },
-                        { label: 'Flota', href: '#fleet' },
-                        { label: 'Contacto', href: '#footer' },
-                    ].map(({ label, href }) => (
+            <div className={`fixed inset-0 z-40 bg-white transition-all duration-500 ease-in-out ${
+                menuOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+            }`} style={{ top: scrolled ? '73px' : '89px' }}>
+                <div className="flex flex-col h-full justify-start items-start p-10 gap-8">
+                    {navLinks.map(({ label, href }) => (
                         <a
                             key={label}
                             href={href}
                             onClick={() => setMenuOpen(false)}
-                            className="text-white/80 text-sm font-semibold uppercase tracking-widest hover:text-[#C5A059] transition-colors border-b border-white/10 pb-4"
+                            className="font-serif text-2xl font-bold text-navy hover:text-gold transition-colors pb-4 border-b border-navy/10 w-full"
                         >
                             {label}
                         </a>
                     ))}
-                    <a href="#booking" className="btn-gold text-center mt-2">
-                        Reservar Ahora
-                    </a>
+                    <div className="w-full pt-8">
+                        <a 
+                            href="#booking-hero" 
+                            onClick={() => setMenuOpen(false)}
+                            className="btn-gold w-full text-center py-5 text-sm block"
+                        >
+                            Reservar Ahora
+                        </a>
+                    </div>
                 </div>
-            )}
+            </div>
         </nav>
     );
 }

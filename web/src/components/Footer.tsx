@@ -3,82 +3,78 @@ export default function Footer() {
     return (
         <footer
             id="footer"
-            className="py-16 px-5 md:px-12"
-            style={{ background: '#0E1620', color: 'rgba(255,255,255,0.6)' }}
+            className="py-24 bg-navy relative border-t border-white/5"
         >
-            <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div className="max-w-7xl mx-auto px-6 lg:px-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
                     {/* Brand */}
-                    <div>
-                        <p
-                            className="text-white font-serif text-xl tracking-widest mb-3"
-                            style={{ fontFamily: 'Playfair Display, serif' }}
-                        >
-                            SAIL<span style={{ color: 'var(--gold)' }}>IN</span>MARBELLA
+                    <div className="flex flex-col gap-6">
+                        <p className="text-white font-serif text-2xl tracking-[0.1em] font-bold">
+                            SAIL<span className="text-gold">IN</span>MARBELLA
                         </p>
-                        <p className="text-xs leading-relaxed">
-                            Charters náuticos de lujo desde Puerto Banús, Marbella.
-                            Vivir el Mediterráneo como nunca antes.
+                        <p className="text-white/40 text-sm leading-relaxed font-medium">
+                            La referencia absoluta en charters náuticos de lujo en Puerto Banús. 
+                            Elevando la experiencia en el Mediterráneo desde 2024.
                         </p>
+                        <div className="flex gap-4">
+                            {['IG', 'WA', 'TA'].map(s => (
+                                <a key={s} href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-[10px] font-bold text-white/40 hover:border-gold hover:text-gold transition-all duration-500">
+                                    {s}
+                                </a>
+                            ))}
+                        </div>
                     </div>
 
-                    {/* Servicios */}
+                    {/* Navigation */}
                     <div>
-                        <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-4">Servicios</h4>
-                        <ul className="flex flex-col gap-2 text-xs">
-                            {['Sunset Cruise (2h)', 'Experiencia Grupal (4h)', 'Charter Privado (8h)', 'Eventos & Celebraciones'].map(s => (
-                                <li key={s}><a href="#services" className="hover:text-[#C5A059] transition-colors">{s}</a></li>
+                        <h4 className="text-white text-[0.65rem] font-bold uppercase tracking-[0.3em] mb-8">Navegación</h4>
+                        <ul className="flex flex-col gap-4 text-[0.7rem] font-bold uppercase tracking-[0.2em] text-white/40">
+                            {['Experiencias', 'La Flota', 'Nosotros', 'Contacto'].map(s => (
+                                <li key={s}>
+                                    <a href={`#${s.toLowerCase()}`} className="hover:text-gold transition-colors duration-300">{s}</a>
+                                </li>
                             ))}
                         </ul>
                     </div>
 
                     {/* Contacto */}
                     <div>
-                        <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-4">Contacto</h4>
-                        <ul className="flex flex-col gap-2 text-xs">
-                            <li>📍 Puerto Banús, Marbella, España</li>
-                            <li>
-                                <a href="tel:+34600000000" className="hover:text-[#C5A059] transition-colors">
-                                    📞 +34 600 000 000
-                                </a>
+                        <h4 className="text-white text-[0.65rem] font-bold uppercase tracking-[0.3em] mb-8">Concierge</h4>
+                        <ul className="flex flex-col gap-4 text-[0.7rem] font-bold uppercase tracking-[0.2em] text-white/40">
+                            <li className="flex flex-col">
+                                <span className="text-[0.5rem] tracking-[0.3em] text-gold/50 mb-1">Ubicación</span>
+                                📍 Puerto Banús, Marbella
                             </li>
-                            <li>
-                                <a href="mailto:info@sailinmarbella.com" className="hover:text-[#C5A059] transition-colors">
-                                    ✉️ info@sailinmarbella.com
-                                </a>
+                            <li className="flex flex-col">
+                                <span className="text-[0.5rem] tracking-[0.3em] text-gold/50 mb-1">Teléfono</span>
+                                <a href="tel:+34600000000" className="hover:text-gold transition-colors">+34 600 000 000</a>
+                            </li>
+                            <li className="flex flex-col">
+                                <span className="text-[0.5rem] tracking-[0.3em] text-gold/50 mb-1">Email</span>
+                                <a href="mailto:info@sailinmarbella.com" className="hover:text-gold transition-colors">info@sailinmarbella.com</a>
                             </li>
                         </ul>
                     </div>
 
                     {/* Legal */}
                     <div>
-                        <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-4">Legal</h4>
-                        <ul className="flex flex-col gap-2 text-xs">
-                            {['Términos y Condiciones', 'Política de Privacidad', 'Política de Cancelación'].map(l => (
-                                <li key={l}><a href="#" className="hover:text-[#C5A059] transition-colors">{l}</a></li>
+                        <h4 className="text-white text-[0.65rem] font-bold uppercase tracking-[0.3em] mb-8">Información</h4>
+                        <ul className="flex flex-col gap-4 text-[0.7rem] font-bold uppercase tracking-[0.2em] text-white/40">
+                            {['Aviso Legal', 'Cookies', 'Cancelaciones'].map(l => (
+                                <li key={l}><a href="#" className="hover:text-gold transition-colors">{l}</a></li>
                             ))}
                         </ul>
                     </div>
                 </div>
 
-                {/* Bottom bar */}
-                <div
-                    className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8"
-                    style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
-                >
-                    <p className="text-xs">
-                        © {year} SailInMarbella · Todos los derechos reservados
+                {/* Bottom Bar */}
+                <div className="pt-10 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6">
+                    <p className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-white/20">
+                        © {year} Sail In Marbella · Designed for the elite
                     </p>
-                    <div className="flex gap-5">
-                        {['Instagram', 'WhatsApp', 'TripAdvisor'].map(s => (
-                            <a
-                                key={s}
-                                href="#"
-                                className="text-[0.7rem] uppercase tracking-wider hover:text-[#C5A059] transition-colors"
-                            >
-                                {s}
-                            </a>
-                        ))}
+                    <div className="flex gap-8 text-[0.5rem] font-bold uppercase tracking-[0.3em] text-white/20">
+                        <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
                     </div>
                 </div>
             </div>

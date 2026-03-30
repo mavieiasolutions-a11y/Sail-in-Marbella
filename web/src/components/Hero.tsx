@@ -1,15 +1,16 @@
 'use client';
+import BookingWidget from './booking/BookingWidget';
 
 export default function Hero() {
     return (
         <section
             id="hero"
-            className="relative min-h-screen flex items-center justify-center overflow-hidden"
+            className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-navy pt-24 pb-12"
             aria-label="Hero section"
         >
             {/* Background video */}
             <video
-                className="hero-video"
+                className="hero-video brightness-[0.7]"
                 autoPlay
                 muted
                 loop
@@ -21,41 +22,55 @@ export default function Hero() {
                 <source src="/videos/hero.mp4" type="video/mp4" />
             </video>
 
-            {/* Overlay */}
-            <div className="hero-overlay" />
+            {/* Cinematic Overlay */}
+            <div className="hero-overlay" style={{ background: 'linear-gradient(to right, rgba(11,22,34,0.9) 0%, rgba(11,22,34,0.4) 50%, rgba(11,22,34,0.1) 100%)' }} />
 
-            {/* Content */}
-            <div className="relative z-10 text-center text-white px-5 max-w-4xl mx-auto fade-up">
-                <p className="section-label text-white/70 mb-5">Puerto Banús · Marbella</p>
-                <h1
-                    className="hero-title font-serif font-bold leading-tight mb-6"
-                    style={{ fontSize: 'clamp(2.8rem, 7vw, 5rem)' }}
-                >
-                    Navega el&nbsp;
-                    <span style={{ color: 'var(--gold)' }}>Mediterráneo</span>
-                    <br />en Velero de Lujo
-                </h1>
-                <p
-                    className="text-white/80 mb-10 max-w-xl mx-auto leading-relaxed"
-                    style={{ fontSize: 'clamp(0.95rem, 2vw, 1.1rem)', fontFamily: 'Montserrat, sans-serif', fontWeight: 300 }}
-                >
-                    Experiencias exclusivas de charter náutico desde Puerto Banús.
-                    Puestas de sol, aventuras grupales o charters privados — diseñados a tu medida.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-                    <a href="#booking" className="btn-gold w-full sm:w-auto text-center">
-                        Reservar Experiencia
-                    </a>
-                    <a href="#services" className="btn-outline w-full sm:w-auto text-center">
-                        Ver Servicios
-                    </a>
+            {/* Content Container */}
+            <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 animate-fade-up mt-8">
+                
+                {/* Left Text Content */}
+                <div className="text-white flex-1 text-center lg:text-left pt-12 lg:pt-0">
+                    <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
+                        <div className="h-[2px] w-8 bg-gold" />
+                        <span className="text-[0.65rem] font-bold uppercase tracking-[0.4em] text-gold/90">
+                            Marbella · Puerto Banús
+                        </span>
+                    </div>
+
+                    <h1
+                        className="font-serif font-bold leading-[1.1] mb-6"
+                        style={{ fontSize: 'clamp(3rem, 5vw, 5.5rem)' }}
+                    >
+                        Vive la <span className="italic text-gold">experiencia</span> <br />
+                        de navegar
+                    </h1>
+
+                    <p
+                        className="text-white/80 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium"
+                        style={{ fontSize: 'clamp(1rem, 1.5vw, 1.15rem)' }}
+                    >
+                        Sube a bordo y acompáñanos hoy mismo. Charter de veleros privados diseñados para contemplar la costa mediterránea con exclusividad absoluta.
+                    </p>
+
+                    <div className="hidden md:flex flex-col gap-4 justify-center lg:justify-start">
+                        <ul className="flex flex-col gap-3">
+                            <li className="flex items-center gap-3 text-sm tracking-wider font-bold text-white/90">
+                                <span className="text-gold text-lg">✓</span> Crucero 100% Privado
+                            </li>
+                            <li className="flex items-center gap-3 text-sm tracking-wider font-bold text-white/90">
+                                <span className="text-gold text-lg">✓</span> Capitán Experto a Bordo
+                            </li>
+                            <li className="flex items-center gap-3 text-sm tracking-wider font-bold text-white/90">
+                                <span className="text-gold text-lg">✓</span> Confirmación Inmediata
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            {/* Scroll indicator */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 opacity-60">
-                <span className="text-white text-[0.6rem] tracking-[0.3em] uppercase">Explorar</span>
-                <div className="w-px h-10 bg-gradient-to-b from-white to-transparent animate-bounce" />
+                {/* Right Booking Widget */}
+                <div id="booking-hero" className="w-full lg:w-[480px] shrink-0 pb-12 lg:pb-0 relative z-20">
+                    <BookingWidget />
+                </div>
             </div>
         </section>
     );

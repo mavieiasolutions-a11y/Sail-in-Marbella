@@ -2,7 +2,6 @@
 import Hero from '@/components/Hero';
 import Navbar from '@/components/Navbar';
 import Services from '@/components/Services';
-import BookingSection from '@/components/BookingSection';
 import Footer from '@/components/Footer';
 
 export default function HomePage() {
@@ -11,7 +10,6 @@ export default function HomePage() {
       <Navbar />
       <Hero />
       <Services />
-      <BookingSection />
       <Footer />
     </main>
   );

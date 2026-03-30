@@ -5,9 +5,9 @@ import { useState } from 'react';
 type ServiceType = 'sunset' | 'grupal' | 'privado';
 
 const SERVICES = [
-    { id: 'sunset' as ServiceType, name: 'Sunset Cruise', price: 'Desde 450€', duration: '2h', deposit: '135€' },
-    { id: 'grupal' as ServiceType, name: 'Experiencia Grupal', price: 'Desde 800€', duration: '4h', deposit: '240€' },
-    { id: 'privado' as ServiceType, name: 'Charter Privado', price: 'Desde 1.500€', duration: '8h', deposit: '450€' },
+    { id: 'sunset' as ServiceType, name: 'Sunset Cruise', price: '450€', duration: '2h', deposit: '135€' },
+    { id: 'grupal' as ServiceType, name: 'Experiencia Grupal', price: '800€', duration: '4h', deposit: '240€' },
+    { id: 'privado' as ServiceType, name: 'Charter Privado', price: '1.500€', duration: '8h', deposit: '450€' },
 ];
 
 type Step = 'form' | 'checking' | 'unavailable' | 'payment';
@@ -15,7 +15,7 @@ type Step = 'form' | 'checking' | 'unavailable' | 'payment';
 export default function BookingWidget() {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
-    const [service, setService] = useState<ServiceType>('privado');
+    const [service, setService] = useState<ServiceType>('sunset');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [step, setStep] = useState<Step>('form');
@@ -25,13 +25,11 @@ export default function BookingWidget() {
 
     const today = new Date().toISOString().split('T')[0];
 
-    // ── Check availability then redirect to Stripe ──────────────────────────────
     const handleSubmit = async () => {
         if (!date || !time || !name || !email) return;
         setStep('checking');
 
         try {
-            // 1. Check Google Calendar availability
             const avRes = await fetch(`/api/calendar/check?date=${date}&service=${service}`);
             const avData = await avRes.json();
 
@@ -40,7 +38,6 @@ export default function BookingWidget() {
                 return;
             }
 
-            // 2. Create Stripe Checkout session
             const checkoutRes = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -72,279 +69,189 @@ export default function BookingWidget() {
     const selectedService = SERVICES.find(s => s.id === service)!;
 
     return (
-        <div
-            className="w-full max-w-md mx-auto rounded-2xl shadow-2xl overflow-hidden"
-            style={{ background: '#F9F9F4', border: '1px solid rgba(197,160,89,0.2)' }}
-        >
-            {/* Gold top bar */}
-            <div className="h-1 w-full" style={{ background: 'linear-gradient(to right, #1B263B, #C5A059, #1B263B)' }} />
-
-            <div className="p-7">
-                {/* Header */}
-                <div className="flex justify-between items-start mb-8">
-                    <div>
-                        <h2 className="font-serif text-2xl" style={{ color: 'var(--navy)' }}>Tu Reserva</h2>
-                        <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>Puerto Banús · Marbella</p>
-                    </div>
-                    <div className="w-8 h-px mt-4" style={{ background: 'var(--gold)' }} />
+        <div id="booking" className="w-full max-w-lg mx-auto glass-light rounded-sm shadow-2xl p-8 lg:p-12 animate-fade-up">
+            {/* Header */}
+            <div className="text-center mb-12">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                    <div className="w-8 h-[1px] bg-gold" />
+                    <span className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-gold">Concierge Service</span>
+                    <div className="w-8 h-[1px] bg-gold" />
                 </div>
+                <h2 className="text-4xl font-serif font-bold text-navy mb-4">Reserve su Experiencia</h2>
+                <p className="text-navy/60 text-sm font-medium">Asignación inmediata y gestión premium de su reserva.</p>
+            </div>
 
-                {/* ── STEP: form ─────────────────────────────────────── */}
-                {(step === 'form' || step === 'unavailable') && (
-                    <div className="flex flex-col gap-5">
-                        {step === 'unavailable' && (
-                            <div
-                                className="text-sm px-4 py-3 rounded-lg border"
-                                style={{ background: 'rgba(197,160,89,0.1)', borderColor: 'var(--gold)', color: 'var(--navy)' }}
-                            >
-                                ⚓ Fecha no disponible. Por favor elige otra fecha.
-                                <button className="block mt-2 text-xs underline" onClick={() => setStep('form')}>
-                                    Volver a intentarlo
-                                </button>
-                            </div>
-                        )}
-
-                        {/* Date & Time */}
-                        <div
-                            className="grid grid-cols-2 rounded-xl overflow-hidden"
-                            style={{ border: '1px solid rgba(27,38,59,0.12)', background: '#fff' }}
-                        >
-                            <div className="p-3" style={{ borderRight: '1px solid rgba(27,38,59,0.12)' }}>
-                                <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'var(--muted)' }}>
-                                    Fecha
-                                </label>
-                                <input
-                                    type="date"
-                                    min={today}
-                                    value={date}
-                                    onChange={e => setDate(e.target.value)}
-                                    className="w-full text-sm font-medium bg-transparent outline-none cursor-pointer"
-                                    style={{ color: 'var(--navy)' }}
-                                />
-                            </div>
-                            <div className="p-3">
-                                <label className="block text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: 'var(--muted)' }}>
-                                    Hora
-                                </label>
-                                <input
-                                    type="time"
-                                    value={time}
-                                    onChange={e => setTime(e.target.value)}
-                                    className="w-full text-sm font-medium bg-transparent outline-none cursor-pointer"
-                                    style={{ color: 'var(--navy)' }}
-                                />
-                            </div>
+            {step === 'checking' ? (
+                <div className="flex flex-col items-center justify-center py-20 gap-6">
+                    <div className="w-12 h-12 rounded-full border-2 border-gold border-t-transparent animate-spin" />
+                    <p className="font-serif text-lg text-navy italic">Verificando su travesía...</p>
+                </div>
+            ) : (
+                <div className="space-y-8">
+                    {step === 'unavailable' && (
+                        <div className="p-4 bg-red-50 border border-red-100 rounded-sm text-center">
+                            <p className="text-red-800 text-xs font-bold uppercase tracking-wider mb-2">⚓ Fecha no disponible</p>
+                            <button onClick={() => setStep('form')} className="text-[10px] underline text-red-600 uppercase tracking-widest font-bold">
+                                Intentar otra fecha
+                            </button>
                         </div>
+                    )}
 
-                        {/* Service selector */}
-                        <div
-                            className="rounded-xl overflow-hidden"
-                            style={{ border: '1px solid rgba(27,38,59,0.12)', background: '#fff' }}
-                        >
-                            <div className="px-4 pt-4 pb-3">
-                                <label className="block text-[10px] font-bold uppercase tracking-wider mb-3" style={{ color: 'var(--muted)' }}>
-                                    Tipo de Experiencia
-                                </label>
-                                <div className="flex flex-col gap-2">
-                                    {SERVICES.map(s => (
-                                        <label
-                                            key={s.id}
-                                            className={`flex justify-between items-center p-3 rounded-lg cursor-pointer transition-all border ${service === s.id
-                                                    ? 'border-[#C5A059] bg-[#1B263B]/5'
-                                                    : 'border-transparent hover:bg-gray-50'
-                                                }`}
+                    {/* Service Selection */}
+                    <div className="space-y-4">
+                        <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-navy/40 ml-1">
+                            Selección de Experiencia
+                        </label>
+                        <div className="grid grid-cols-1 gap-3">
+                            {SERVICES.map(s => (
+                                <button
+                                    key={s.id}
+                                    onClick={() => setService(s.id)}
+                                    className={`flex items-center justify-between p-4 rounded-sm border transition-all duration-500 ${
+                                        service === s.id 
+                                        ? 'bg-navy text-white border-navy shadow-lg scale-[1.02]' 
+                                        : 'bg-white/50 text-navy border-navy/5 hover:border-gold/30'
+                                    }`}
+                                >
+                                    <div className="flex flex-col items-start gap-1">
+                                        <span className="text-sm font-bold uppercase tracking-widest">{s.name}</span>
+                                        <span className={`text-[10px] uppercase tracking-wider ${service === s.id ? 'text-gold' : 'text-navy/40'}`}>
+                                            Duración: {s.duration}
+                                        </span>
+                                    </div>
+                                    <span className={`font-serif text-lg ${service === s.id ? 'text-gold' : 'text-navy/80'}`}>
+                                        {s.price}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Date & Time */}
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                            <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-navy/40 ml-1">Fecha</label>
+                            <input
+                                type="date"
+                                min={today}
+                                value={date}
+                                onChange={e => setDate(e.target.value)}
+                                className="w-full bg-white/50 border border-navy/5 rounded-sm p-4 text-sm font-bold text-navy outline-none focus:border-gold transition-colors"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-navy/40 ml-1">Hora</label>
+                            <input
+                                type="time"
+                                value={time}
+                                onChange={e => setTime(e.target.value)}
+                                className="w-full bg-white/50 border border-navy/5 rounded-sm p-4 text-sm font-bold text-navy outline-none focus:border-gold transition-colors"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Personal Data */}
+                    <div className="space-y-4 pt-4 border-t border-navy/5">
+                        <div className="space-y-2">
+                            <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-navy/40 ml-1">Nombre Completo</label>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                                placeholder="P. ej: Alejandro Valente"
+                                className="w-full bg-white/50 border border-navy/5 rounded-sm p-4 text-sm font-bold text-navy outline-none focus:border-gold transition-colors placeholder:text-navy/20"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-navy/40 ml-1">Correo Electrónico</label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                placeholder="email@marbella.com"
+                                className="w-full bg-white/50 border border-navy/5 rounded-sm p-4 text-sm font-bold text-navy outline-none focus:border-gold transition-colors placeholder:text-navy/20"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Payment Mode */}
+                    <div className="space-y-4">
+                        <label className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-navy/40 ml-1">Modalidad de Reserva</label>
+                        <div className="flex gap-4">
+                            {[
+                                { v: 'deposit', label: 'Depósito (Garantía)', amount: selectedService.deposit },
+                                { v: 'full', label: 'Total del Charter', amount: selectedService.price },
+                            ].map(({v, label, amount}) => (
+                                <button
+                                    key={v}
+                                    onClick={() => setPayType(v as any)}
+                                    className={`flex-1 p-4 rounded-sm border transition-all duration-300 ${
+                                        payType === v 
+                                        ? 'bg-gold text-white border-gold shadow-lg' 
+                                        : 'bg-white/50 text-navy border-navy/5 hover:border-gold/30'
+                                    }`}
+                                >
+                                    <p className="text-[10px] font-bold uppercase tracking-widest mb-1">{label}</p>
+                                    <p className="font-serif text-lg">{amount}</p>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Submit */}
+                    <button
+                        onClick={handleSubmit}
+                        disabled={!date || !time || !name || !email}
+                        className="btn-gold w-full !py-6 !text-sm group flex items-center justify-center gap-3 disabled:opacity-50"
+                    >
+                        <span>Confirmar Reserva Premium</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-x-1 transition-transform">
+                            <path d="M5 12h14m-7-7l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </button>
+
+                    {/* Admin Trigger */}
+                    <div className="pt-12 text-center opacity-20 hover:opacity-100 transition-opacity">
+                        {!adminMode ? (
+                            <details className="inline-block">
+                                <summary className="text-[8px] uppercase tracking-[0.5em] cursor-pointer outline-none text-navy">Admin Access</summary>
+                                <div className="mt-4 flex gap-2">
+                                    <input
+                                        type="password"
+                                        placeholder="Key"
+                                        value={adminPw}
+                                        onChange={e => setAdminPw(e.target.value)}
+                                        className="bg-white border border-navy/10 rounded-sm px-3 py-1 text-[10px] outline-none"
+                                    />
+                                    <button onClick={attemptAdmin} className="bg-gold text-white px-3 py-1 text-[10px] font-bold hover:bg-gold-lt transition-colors rounded-sm uppercase tracking-widest">In</button>
+                                </div>
+                            </details>
+                        ) : (
+                            <div className="p-6 bg-white border border-gold rounded-sm shadow-xl">
+                                <div className="flex justify-between items-center mb-6 pb-4 border-b border-navy/5">
+                                    <span className="text-[0.6rem] font-bold uppercase tracking-[0.3em] text-gold">✦ Admin Edit Mode</span>
+                                    <button onClick={() => setAdminMode(false)} className="text-navy/40 hover:text-navy text-xs">✕</button>
+                                </div>
+                                <div className="grid grid-cols-1 gap-2">
+                                    {[
+                                        { label: '🎬 Change Hero Video', field: 'hero-video' },
+                                        { label: '📸 Update Services Gallery', field: 'gallery' },
+                                        { label: '⛵ Fleet Images', field: 'fleet' },
+                                    ].map(({ label, field }) => (
+                                        <button
+                                            key={field}
+                                            className="w-full text-left p-3 bg-cream hover:bg-gold hover:text-white transition-all text-[10px] font-bold uppercase tracking-wider rounded-sm text-navy/60"
+                                            onClick={() => alert(`Funcionalidad de carga de archivos lista para ${field}`)}
                                         >
-                                            <div className="flex items-center gap-3">
-                                                <input
-                                                    type="radio"
-                                                    name="service"
-                                                    value={s.id}
-                                                    checked={service === s.id}
-                                                    onChange={() => setService(s.id)}
-                                                    className="w-4 h-4 cursor-pointer accent-[#C5A059]"
-                                                />
-                                                <div>
-                                                    <p className="text-sm font-semibold" style={{ color: 'var(--navy)' }}>{s.name}</p>
-                                                    <p className="text-[10px]" style={{ color: 'var(--muted)' }}>{s.duration}</p>
-                                                </div>
-                                            </div>
-                                            <span className="text-xs font-bold" style={{ color: 'var(--gold)' }}>{s.price}</span>
-                                        </label>
+                                            {label}
+                                        </button>
                                     ))}
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Contact fields */}
-                        <div
-                            className="rounded-xl overflow-hidden"
-                            style={{ border: '1px solid rgba(27,38,59,0.12)', background: '#fff' }}
-                        >
-                            <div className="p-4 flex flex-col gap-3">
-                                <label className="block text-[10px] font-bold uppercase tracking-wider" style={{ color: 'var(--muted)' }}>
-                                    Tus Datos
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="Nombre completo"
-                                    value={name}
-                                    onChange={e => setName(e.target.value)}
-                                    className="w-full text-sm p-2 rounded-md outline-none"
-                                    style={{ border: '1px solid rgba(27,38,59,0.15)', color: 'var(--navy)' }}
-                                />
-                                <input
-                                    type="email"
-                                    placeholder="Email"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    className="w-full text-sm p-2 rounded-md outline-none"
-                                    style={{ border: '1px solid rgba(27,38,59,0.15)', color: 'var(--navy)' }}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Payment type */}
-                        <div className="flex gap-3">
-                            {([
-                                { v: 'deposit', label: `Depósito · ${selectedService.deposit}` },
-                                { v: 'full', label: `Total · ${selectedService.price}` },
-                            ] as const).map(({ v, label }) => (
-                                <button
-                                    key={v}
-                                    onClick={() => setPayType(v)}
-                                    className={`flex-1 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all`}
-                                    style={{
-                                        background: payType === v ? 'var(--navy)' : 'transparent',
-                                        color: payType === v ? '#fff' : 'var(--navy)',
-                                        border: `1.5px solid ${payType === v ? 'var(--navy)' : 'rgba(27,38,59,0.2)'}`,
-                                    }}
-                                >
-                                    {label}
-                                </button>
-                            ))}
-                        </div>
-
-                        {/* CTA */}
-                        <button
-                            onClick={handleSubmit}
-                            disabled={!date || !time || !name || !email}
-                            className="w-full py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                            style={{ background: 'var(--navy)', color: '#fff' }}
-                        >
-                            Verificar y Pagar →
-                        </button>
+                        )}
                     </div>
-                )}
-
-                {/* ── STEP: checking ─────────────────────────────────── */}
-                {step === 'checking' && (
-                    <div className="flex flex-col items-center justify-center py-12 gap-5">
-                        <div
-                            className="w-12 h-12 rounded-full border-4 border-t-transparent animate-spin"
-                            style={{ borderColor: 'var(--gold)', borderTopColor: 'transparent' }}
-                        />
-                        <p className="text-sm font-medium" style={{ color: 'var(--navy)' }}>
-                            Verificando disponibilidad…
-                        </p>
-                        <p className="text-xs" style={{ color: 'var(--muted)' }}>
-                            Consultando Google Calendar
-                        </p>
-                    </div>
-                )}
-
-                {/* ── Admin Mode toggle (hidden) ──────────────────────── */}
-                {!adminMode ? (
-                    <div className="mt-8 text-center">
-                        <details>
-                            <summary className="text-[10px] uppercase tracking-widest cursor-pointer outline-none" style={{ color: 'rgba(0,0,0,0.15)' }}>
-                                Configuración Web
-                            </summary>
-                            <div className="mt-3 flex gap-2">
-                                <input
-                                    type="password"
-                                    placeholder="Contraseña admin"
-                                    value={adminPw}
-                                    onChange={e => setAdminPw(e.target.value)}
-                                    onKeyDown={e => e.key === 'Enter' && attemptAdmin()}
-                                    className="flex-1 text-xs px-3 py-2 rounded-md outline-none"
-                                    style={{ border: '1px solid rgba(197,160,89,0.4)' }}
-                                />
-                                <button
-                                    onClick={attemptAdmin}
-                                    className="text-xs px-4 rounded-md font-bold text-white"
-                                    style={{ background: 'var(--gold)' }}
-                                >
-                                    OK
-                                </button>
-                            </div>
-                        </details>
-                    </div>
-                ) : (
-                    <div
-                        className="mt-6 p-4 rounded-xl relative"
-                        style={{ background: '#fff', border: '1px solid var(--gold)' }}
-                    >
-                        <button
-                            onClick={() => setAdminMode(false)}
-                            className="absolute top-3 right-3 text-xs"
-                            style={{ color: 'var(--muted)' }}
-                        >
-                            ✕
-                        </button>
-                        <h3
-                            className="text-xs font-bold uppercase tracking-widest mb-3"
-                            style={{ color: 'var(--navy)' }}
-                        >
-                            ✦ Modo Edición Activo
-                        </h3>
-                        <div className="flex flex-col gap-2">
-                            {[
-                                { label: '🎬 Cambiar Video de Fondo', field: 'hero-video' },
-                                { label: '🖼️ Actualizar Galería Servicios', field: 'gallery' },
-                                { label: '📸 Imagen Sunset Cruise', field: 'service-image-sunset' },
-                                { label: '📸 Imagen Experiencia Grupal', field: 'service-image-grupal' },
-                                { label: '📸 Imagen Charter Privado', field: 'service-image-privado' },
-                            ].map(({ label, field }) => (
-                                <button
-                                    key={field}
-                                    className="w-full text-xs py-2 px-3 rounded text-left font-medium transition-colors"
-                                    style={{
-                                        background: 'var(--cream)',
-                                        color: 'var(--navy)',
-                                        border: '1px solid rgba(197,160,89,0.2)',
-                                    }}
-                                    onClick={() => {
-                                        const input = document.createElement('input');
-                                        input.type = 'file';
-                                        input.accept = field === 'hero-video' ? 'video/*' : 'image/*';
-                                        input.onchange = (e) => {
-                                            const file = (e.target as HTMLInputElement).files?.[0];
-                                            if (!file) return;
-                                            // Update the corresponding element's src/poster
-                                            const el = document.querySelector(`[data-admin-field="${field}"]`) as HTMLElement;
-                                            if (el) {
-                                                const url = URL.createObjectURL(file);
-                                                if (el instanceof HTMLVideoElement) el.poster = url;
-                                                else if (el instanceof HTMLImageElement) el.src = url;
-                                                // Also update video source
-                                                if (field === 'hero-video') {
-                                                    const vid = el as HTMLVideoElement;
-                                                    vid.src = url;
-                                                    vid.load();
-                                                    vid.play();
-                                                }
-                                            }
-                                        };
-                                        input.click();
-                                    }}
-                                >
-                                    {label}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 }
