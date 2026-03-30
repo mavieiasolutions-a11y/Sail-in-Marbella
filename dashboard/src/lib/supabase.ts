@@ -1,13 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ?? '';
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY ?? '';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL ?? 'https://lcbmrbvixekfbanajdao.supabase.co';
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjYm1yYnZpeGVrZmJhbmFqZGFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4ODk3MzcsImV4cCI6MjA5MDQ2NTczN30.uLQRbuwtpY0szueirmcHec1cWHxlJ_hZ58uBZf5tUT0';
 
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    console.warn('⚠️ Supabase environment variables are missing! Check your Vercel/local config.');
+if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+    console.warn('⚠️ Supabase environment variables are missing! Using default provided credentials.');
 }
 
-export const supabase = createClient(
-    SUPABASE_URL || 'https://placeholder.supabase.co',
-    SUPABASE_ANON_KEY || 'placeholder'
-);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
