@@ -1,18 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --color-cream: #F9F9F4;
+  --color-navy: #1B263B;
+  --color-gold: #C5A059;
+  --color-gold-lt: #D4B06A;
+  --color-dark: #0E1620;
+  --color-text: #2C2C2C;
+  --color-muted: #7A8090;
 
-/* ─── Design Tokens ─────────────────────────────────── */
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Montserrat", sans-serif;
+}
+
 :root {
-  --cream:  #F9F9F4;
-  --navy:   #1B263B;
-  --gold:   #C5A059;
-  --gold-lt:#D4B06A;
-  --dark:   #0E1620;
-  --text:   #2C2C2C;
-  --muted:  #7A8090;
+  --cream: #F9F9F4;
+  --navy: #1B263B;
+  --gold: #C5A059;
+  --gold-lt: #D4B06A;
+  --dark: #0E1620;
+  --text: #2C2C2C;
+  --muted: #7A8090;
 }
 
 /* ─── Base ─────────────────────────────────────────── */
