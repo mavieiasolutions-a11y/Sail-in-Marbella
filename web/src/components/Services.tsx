@@ -6,10 +6,10 @@ const SERVICES = [
         serviceId: 'sunset',
         label: 'Amanecer / Atardecer en Marbella',
         duration: '2 Horas',
-        price: 'Desde 450€',
+        price: '450€',
         capacity: '10 Invitados',
         description:
-            'Hay momentos que merecen ser vividos en el mar. Una travesía mágica bajo el cielo encendido de Marbella. Desde pedidas de mano al atardecer hasta celebraciones privadas, privacidad absoluta, selección de tapas premium y el mejor vino frente a Puerto Banús.',
+            'Una travesía mágica bajo el cielo encendido de Marbella. Privacidad absoluta, selección de tapas premium y el mejor vino frente a Puerto Banús.',
         image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=2094&auto=format&fit=crop',
     },
     {
@@ -17,96 +17,108 @@ const SERVICES = [
         serviceId: 'grupal',
         label: 'Navegación y Baño en la Costa',
         duration: '4 Horas',
-        price: 'Desde 800€',
+        price: '800€',
         capacity: '20 Invitados',
         description:
-            'Navegación costera exclusiva para grupos selectos. Música a bordo, fondeo en calas para disfrutar de un baño en aguas cristalinas y un ambiente sofisticado bajo el sol mediterráneo. Ideal para cumpleaños y eventos corporativos.',
-        image: 'https://images.unsplash.com/photo-1505041042733-6490696700c0?q=80&w=2070&auto=format&fit=crop',
+            'Navegación costera exclusiva para grupos selectos. Música a bordo, fondeo en calas para disfrutar de un baño en aguas cristalinas y un ambiente sofisticado bajo el sol mediterráneo.',
+        image: 'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?q=80&w=2044&auto=format&fit=crop',
     },
     {
         id: '03',
         serviceId: 'privado',
-        label: 'Día Completo de Navegación',
+        label: 'Charter Privado Día Completo',
         duration: '8 Horas',
-        price: 'Desde 1.500€',
+        price: '1.500€',
         capacity: '12 Invitados',
         description:
-            'El epítome del lujo náutico. Siente la libertad del mar a bordo de un velero privado explorando la Costa del Sol. Un día completo a su medida con un servicio discreto y personalizado de primer nivel.',
+            'El epítome del lujo náutico. Siente la libertad del mar a bordo de un velero privado explorando la Costa del Sol. Un día completo a su medida con un servicio discreto y personalizado.',
         image: 'https://images.unsplash.com/photo-1621275471769-e6aa344546d5?q=80&w=2073&auto=format&fit=crop',
     },
 ];
 
 export default function Services() {
     return (
-        <section id="services" className="py-24 bg-[#FAF9F7]">
-            <div className="max-w-6xl mx-auto px-6 lg:px-12">
-                <div className="text-center mb-20 max-w-3xl mx-auto">
-                    <h2 className="text-4xl md:text-5xl font-serif font-bold text-navy mb-6 leading-tight">
-                        Nuestras salidas más <span className="text-gold italic">destacadas</span>
-                    </h2>
-                    <p className="text-navy/70 text-base leading-relaxed">
-                        Estas son las travesías que hemos creado con más cariño y también las que más enamoran a quienes navegan con nosotros. Disfruta de un viaje verdaderamente único por la Costa del Sol.
-                    </p>
+        <section id="services" className="py-32 bg-navy relative overflow-hidden">
+            <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ background: 'radial-gradient(circle at top right, var(--gold) 0%, transparent 60%)' }} />
+
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 border-b border-white/10 pb-12">
+                    <div className="max-w-2xl">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="w-12 h-[1px] bg-gold" />
+                            <span className="text-[0.6rem] font-bold uppercase tracking-[0.4em] text-gold">
+                                Colección Exclusiva
+                            </span>
+                        </div>
+                        <h2 className="text-4xl md:text-6xl font-serif font-bold text-white leading-[1.1]">
+                            Travesías de <br />
+                            <span className="italic text-gold font-light">Distinción</span>
+                        </h2>
+                    </div>
+                    <div className="max-w-sm">
+                        <p className="text-white/60 text-sm leading-relaxed font-light">
+                            Seleccionamos los itinerarios más espectaculares de la Costa del Sol. Cada experiencia naval está diseñada para superar las expectativas del navegante más exigente.
+                        </p>
+                    </div>
                 </div>
 
-                <div className="flex flex-col gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {SERVICES.map((s, i) => (
                         <div 
                             key={s.id}
-                            className="flex flex-col md:flex-row bg-white rounded-sm shadow-sm hover:shadow-xl overflow-hidden border border-navy/5 group transition-all duration-500 animate-fade-up"
-                            style={{ animationDelay: `${i * 100}ms` }}
+                            className="group relative overflow-hidden aspect-[3/4] rounded-sm bg-navy cursor-pointer animate-fade-up shadow-[0_4px_25px_rgba(0,0,0,0.5)] border border-white/5"
+                            style={{ animationDelay: `${i * 150}ms` }}
                         >
-                            {/* Image side */}
-                            <div className="w-full md:w-[45%] lg:w-[40%] aspect-[4/3] md:aspect-auto md:min-h-[340px] relative overflow-hidden shrink-0">
-                                <img 
-                                    src={s.image} 
-                                    alt={s.label}
-                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] cubic-bezier(0.25, 1, 0.5, 1) group-hover:scale-105"
-                                />
-                                <div className="absolute top-4 left-4 glass py-1.5 px-3">
-                                    <span className="text-gold font-bold text-xs">{s.id}.</span>
-                                </div>
+                            {/* Background Image */}
+                            <img 
+                                src={s.image} 
+                                alt={s.label}
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 opacity-70 group-hover:opacity-100 mix-blend-luminosity hover:mix-blend-normal"
+                            />
+                            
+                            {/* Gradient Overlay for legibility */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/40 to-transparent transition-opacity duration-500 group-hover:from-navy/90" />
+
+                            {/* Number floating top */}
+                            <div className="absolute top-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">
+                                <span className="text-white/90 font-serif text-3xl font-light italic">{s.id}.</span>
                             </div>
 
-                            {/* Content Side */}
-                            <div className="w-full md:w-[55%] lg:w-[60%] p-8 lg:p-12 flex flex-col justify-center">
-                                <h3 className="text-2xl lg:text-3xl font-serif font-bold text-navy mb-5 group-hover:text-gold transition-colors duration-300">
+                            {/* Content Block (Bottom) */}
+                            <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                <div className="flex items-center gap-3 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                    <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-gold">{s.duration}</span>
+                                    <div className="w-1 h-1 rounded-full bg-white/30" />
+                                    <span className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-white/50">{s.capacity}</span>
+                                </div>
+                                
+                                <h3 className="text-2xl font-serif font-bold text-white mb-4 drop-shadow-md pb-4 group-hover:pb-0 transition-all duration-500">
                                     {s.label}
                                 </h3>
-                                
-                                <p className="text-navy/70 text-sm md:text-base leading-relaxed mb-8">
-                                    {s.description}
-                                </p>
 
-                                <div className="flex flex-wrap items-center gap-x-8 gap-y-4 mb-8 mt-auto pt-6 border-t border-navy/5">
-                                    <div className="flex flex-col gap-1">
-                                        <span className="text-[0.6rem] uppercase tracking-widest font-bold text-navy/40">Duración</span>
-                                        <span className="font-serif font-bold text-navy text-lg">{s.duration}</span>
-                                    </div>
-                                    <div className="hidden sm:block w-px h-8 bg-navy/10" />
-                                    <div className="flex flex-col gap-1">
-                                        <span className="text-[0.6rem] uppercase tracking-widest font-bold text-navy/40">Capacidad</span>
-                                        <span className="font-serif font-bold text-navy text-lg">{s.capacity}</span>
-                                    </div>
-                                    <div className="hidden sm:block w-px h-8 bg-navy/10" />
-                                    <div className="flex flex-col gap-1">
-                                        <span className="text-[0.6rem] uppercase tracking-widest font-bold text-navy/40">Tarifa</span>
-                                        <span className="font-serif font-bold text-navy text-xl">{s.price}</span>
-                                    </div>
-                                </div>
+                                <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out">
+                                    <div className="overflow-hidden">
+                                        <p className="text-white/60 text-sm leading-relaxed mb-6 pt-2 font-light line-clamp-3">
+                                            {s.description}
+                                        </p>
 
-                                <div>
-                                    <a 
-                                        href={`#booking-hero?service=${s.serviceId}`} 
-                                        className="inline-flex items-center gap-3 text-[0.7rem] uppercase tracking-[0.2em] font-bold text-gold hover:text-navy transition-colors pb-1 border-b border-gold/40 hover:border-navy"
-                                    >
-                                        Reservar esta experiencia
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M5 12h14m-7-7l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </a>
+                                        <div className="flex items-center justify-between border-t border-white/10 pt-6">
+                                            <div className="flex flex-col">
+                                                <span className="text-[0.55rem] uppercase tracking-widest text-white/40 mb-1">Inversión Desde</span>
+                                                <span className="text-xl font-serif text-gold font-bold">{s.price}</span>
+                                            </div>
+                                            
+                                            <a 
+                                                href={`#booking?service=${s.serviceId}`} 
+                                                className="btn-outline !py-2.5 !px-6 !text-[0.6rem] !border-white/20 hover:!border-gold hover:!bg-gold hover:text-white"
+                                            >
+                                                Reservar
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     ))}
                 </div>

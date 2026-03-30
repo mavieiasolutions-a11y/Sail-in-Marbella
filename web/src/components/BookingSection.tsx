@@ -5,55 +5,64 @@ export default function BookingSection() {
     return (
         <section
             id="booking"
-            className="py-24 px-5 md:px-12 relative overflow-hidden"
-            style={{ background: 'var(--navy)' }}
+            className="py-32 px-5 md:px-12 relative overflow-hidden bg-navy"
+            style={{ 
+                backgroundImage: 'radial-gradient(ellipse at bottom left, rgba(197, 160, 89, 0.08) 0%, transparent 60%)' 
+            }}
         >
-            {/* Decorative circles */}
-            <div
-                className="absolute -top-32 -right-32 w-64 h-64 rounded-full opacity-10"
-                style={{ background: 'var(--gold)' }}
-            />
-            <div
-                className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full opacity-10"
-                style={{ background: 'var(--gold)' }}
-            />
-
-            <div className="max-w-6xl mx-auto relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    {/* Left copy */}
-                    <div className="text-white">
-                        <p className="section-label mb-4">Reserva Online</p>
-                        <div className="w-12 h-0.5 mb-6" style={{ background: 'var(--gold)' }} />
-                        <h2 className="font-serif text-4xl md:text-5xl leading-tight mb-6">
-                            Tu Próxima<br />
-                            <span style={{ color: 'var(--gold)' }}>Aventura</span> te Espera
+            <div className="max-w-7xl mx-auto relative z-10 border-t border-white/5 pt-32">
+                <div className="flex flex-col lg:flex-row gap-20 items-center lg:items-start">
+                    
+                    {/* Left Typography */}
+                    <div className="lg:w-5/12 text-white/90 text-center lg:text-left">
+                        <div className="flex items-center justify-center lg:justify-start gap-3 mb-8">
+                            <div className="w-8 h-[1px] bg-gold" />
+                            <span className="text-[0.6rem] font-bold uppercase tracking-[0.4em] text-gold">Reserva Online</span>
+                        </div>
+                        
+                        <h2 className="font-serif text-5xl md:text-6xl font-bold leading-[1.1] mb-8">
+                            Planifica tu <br />
+                            <span className="italic font-light text-gold text-glow-subtle">Aventura</span>
                         </h2>
-                        <p className="text-white/70 text-sm leading-relaxed mb-8 max-w-md">
-                            Selecciona fecha, horario y tipo de experiencia. Validamos disponibilidad en tiempo real
-                            y gestionamos tu pago de forma segura con Stripe. Recibirás confirmación en minutos.
+                        
+                        <p className="text-white/60 text-sm leading-relaxed mb-16 font-light max-w-md mx-auto lg:mx-0">
+                            Asegure su travesía en minutos. Seleccione la fecha, embarcación y modalidad preferida. Nuestro sistema verifica su disponibilidad de forma inmediata para garantizar una experiencia excepcional.
                         </p>
 
                         {/* Trust badges */}
-                        <ul className="flex flex-col gap-4">
+                        <ul className="flex flex-col gap-8 max-w-sm mx-auto lg:mx-0">
                             {[
-                                { icon: '🔒', text: 'Pago seguro con Stripe · Depósito del 30%' },
-                                { icon: '📅', text: 'Confirmación instantánea · Evento en Google Calendar' },
-                                { icon: '⚓', text: 'Cancelación gratuita 48h antes de la salida' },
-                            ].map(({ icon, text }) => (
-                                <li key={text} className="flex items-start gap-3 text-white/80 text-sm">
-                                    <span className="text-lg leading-tight">{icon}</span>
-                                    <span>{text}</span>
+                                { icon: 'lock', title: 'Pago Seguro', text: 'Con Stripe y seguridad de grado bancario' },
+                                { icon: 'calendar', title: 'Agendamiento', text: 'Reserva confirmada instantáneamente' },
+                                { icon: 'shield', title: 'Garantía', text: 'Cancelación gratuita hasta 48h antes' },
+                            ].map(({ icon, title, text }) => (
+                                <li key={title} className="flex items-center lg:items-start gap-6 text-left">
+                                    <div className="w-12 h-12 rounded-full border border-gold/20 flex flex-col items-center justify-center shrink-0 bg-gold/5">
+                                        <div className="w-1.5 h-1.5 bg-gold rounded-full" />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-white text-xs font-bold uppercase tracking-widest mb-1.5">{title}</h4>
+                                        <p className="text-white/50 text-[0.7rem] font-light leading-relaxed">{text}</p>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* Right: BookingWidget */}
-                    <div className="w-full">
-                        <BookingWidget />
+                    {/* Right: BookingWidget Form */}
+                    <div className="lg:w-7/12 w-full flex justify-center lg:justify-end">
+                        <div className="w-full max-w-[600px] shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                            <BookingWidget />
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <style jsx>{`
+                .text-glow-subtle {
+                    text-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
+                }
+            `}</style>
         </section>
     );
 }
