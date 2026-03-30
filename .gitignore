@@ -1,0 +1,17 @@
+# Root gitignore
+node_modules/
+.DS_Store
+.env
+.env.local
+.env.*.local
+
+# Dashboard specific
+dashboard/dist/
+dashboard/node_modules/
+
+# Web specific
+web/.next/
+web/node_modules/
+web/build_output.log
+web/tsc_errors.txt
+web/full_build_output.txt

@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cream: #F9F9F4;
+  --navy: #1B263B;
+  --gold: #C5A059;
+  --dark: #0E1620;
+  --panel: #141E2C;
+  --muted: #7A8090;
+  --border: rgba(255, 255, 255, 0.07);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--dark);
+  color: #cdd5e0;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Playfair Display', serif;
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a3a52;
+  border-radius: 3px;
+}
+
+/* FullCalendar */
+.fc {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 0.82rem;
+}
+
+.fc .fc-toolbar-title {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.fc .fc-button-primary {
+  background: var(--navy) !important;
+  border-color: rgba(197, 160, 89, 0.4) !important;
+  font-size: 0.7rem !important;
+  padding: 0.3rem 0.8rem !important;
+}
+
+.fc .fc-button-primary:hover {
+  background: var(--gold) !important;
+  border-color: var(--gold) !important;
+}
+
+.fc .fc-daygrid-day-number {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+}
+
+.fc .fc-col-header-cell {
+  background: rgba(27, 38, 59, 0.8);
+}
+
+.fc .fc-col-header-cell-cushion {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  background: rgba(197, 160, 89, 0.08) !important;
+}
+
+.fc-event {
+  background: var(--gold) !important;
+  border-color: var(--gold) !important;
+  color: #0E1620 !important;
+  font-weight: 700;
+  font-size: 0.7rem;
+  border-radius: 4px !important;
+}
+
+.fc th,
+.fc td {
+  border-color: var(--border) !important;
+}
+
+.fc .fc-scrollgrid {
+  border-color: var(--border) !important;
+}
